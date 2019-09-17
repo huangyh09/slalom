@@ -315,7 +315,7 @@ def plotRelevance(FA,Nactive=20,stacked=True, madFilter=0.4,annotated=True,unann
     Iactive = R.argsort()[::-1][0:Nactive]
     RM = R[Iactive,SP.newaxis]
 
-    xticks_range = SP.arange(Nactive)
+    xticks_range = SP.arange(Nactive) + 0.5
     terms[terms=='hidden'] = 'Unannotated'
     terms[terms=='hiddenSparse'] = 'Unannotated-sparse'
     xticks_text  = list(terms[Iactive])
@@ -331,7 +331,7 @@ def plotRelevance(FA,Nactive=20,stacked=True, madFilter=0.4,annotated=True,unann
 
 
     width = 0.6
-    left = SP.arange(Nactive)-0.5 + (1.-width)/2.
+    xloc = SP.arange(Nactive) + 0.5
     
     fig = plt.figure(2,figsize=(10,6))
     fig.subplots_adjust(bottom=0.3)
@@ -365,8 +365,8 @@ def plotRelevance(FA,Nactive=20,stacked=True, madFilter=0.4,annotated=True,unann
 
     y_max = Nprior[Iactive].max()+100.
 
-    bar_rel_importance = ax1.bar(left=SP.arange(Nactive)-0.5 ,width=1.05,height=[y_max]*len(n_prior),bottom=0,color=colors,log=True, edgecolor = 'none')
-    bar_annotated = ax1.bar(left=left,width=width,height=n_prior,bottom=0,color='w',log=True,alpha=0.6, edgecolor = 'k')
+    bar_rel_importance = ax1.bar(x=xloc,width=1.0,height=[y_max]*len(n_prior),bottom=0,color=colors,log=True, edgecolor = 'none')
+    bar_annotated = ax1.bar(x=xloc,width=width,height=n_prior,bottom=0,color='w',log=True,alpha=0.6, edgecolor = 'k')
 
     ax1.set_ylim([10,y_max])
     ax1.set_xlim([0,Nactive])
@@ -389,11 +389,11 @@ def plotRelevance(FA,Nactive=20,stacked=True, madFilter=0.4,annotated=True,unann
     simpleaxis(ax0)
 
     if stacked:
-        bar_gain = ax0.bar(left=left,width=width,height=n_gain,bottom=0,color='#861608')
-        bar_loss = ax0.bar(left=left,width=width,height=n_loss,bottom=0,color='#0c09a0')
+        bar_gain = ax0.bar(x=xloc,width=width,height=n_gain,bottom=0,color='#861608')
+        bar_loss = ax0.bar(x=xloc,width=width,height=n_loss,bottom=0,color='#0c09a0')
     else: 
-        bar_gain = ax0.bar(left=SP.arange(Nactive)-0.5,width=0.5,height=n_gain,bottom=0,color='#861608')
-        bar_loss = ax0.bar(left=SP.arange(Nactive),width=0.5,height=n_loss,bottom=0,color='#0c09a0')
+        bar_gain = ax0.bar(x=xloc,width=0.5,height=n_gain,bottom=0,color='#861608')
+        bar_loss = ax0.bar(x=xloc,width=0.5,height=n_loss,bottom=0,color='#0c09a0')
 
     #figure out range to make ylim symmatrix
     ax0.axhline(y=0,linestyle='-',color='gray')
